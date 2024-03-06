@@ -1,7 +1,7 @@
 import express from 'express';
 import {config} from 'dotenv';
 import cors from 'cors';
-import router from '../backend/routes/items.js'
+import router from './routes/items.js'
 import cookieParser from 'cookie-parser';
 
 
