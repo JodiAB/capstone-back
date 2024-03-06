@@ -1,10 +1,9 @@
 import express from 'express';
 import {config} from 'dotenv';
 import cors from 'cors';
-import ProductRouter from '../backend/routes/items.js'
-import bcrypt from 'bcrypt'
+import router from '../backend/routes/items.js'
 import cookieParser from 'cookie-parser';
-import jwt from 'jsonwebtoken';
+
 
 
 config();
@@ -19,7 +18,7 @@ app.use(cors({
     credentials:true
 })); //middleware
 app.use(express.json())
-app.use('/product', ProductRouter)
+app.use('/product', router)
 
 app.listen(PORT, () =>
 console.log(`Server is running on http://localhost:${PORT}`))
