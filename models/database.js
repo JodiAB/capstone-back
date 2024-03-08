@@ -25,7 +25,7 @@ const getProduct = async (id) => {
     return result;
 }
 
-getUser = async (id) => {
+const getUser = async (id) => {
     const [result] = await pool.query(`SELECT * FROM users WHERE id = ?`, [id]);
     return result;
 }
@@ -46,8 +46,8 @@ const upProduct = async (productName, productDes, productPrice, productIMG, prod
     return product;
 }
 
-const upUser = async (userName, userLast, userEmail, userPass) => {
-    const [user] = await pool.query(`UPDATE user SET userName = ?, userLast = ?, userEmail = ?, userPass =? WHERE userID = ?`, [userName, userLast, userEmail, userPass]);
+const upUser = async (userName, userLast, userEmail, userPass, userID) => {
+    const [user] = await pool.query(`UPDATE user SET userName = ?, userLast = ?, userEmail = ?, userPass =?  userID =? WHERE userID = ?`, [userName, userLast, userEmail, userPass, userID]);
     return user;
 }
 
@@ -72,4 +72,4 @@ const deleteUser = async (id) => {
 
 
 
-export { getProducts, getProduct, addProduct, upProduct, deleteProduct, addUser, deleteUser, upUser};
+export { getProducts, getProduct, addProduct, upProduct, deleteProduct, addUser, deleteUser, upUser, getUser, getUsers};

@@ -1,9 +1,12 @@
-import { getProducts, getProduct, addProduct, upProduct, deleteProduct } from '../models/database.js';
+import { getProducts, getProduct, addProduct, upProduct, deleteProduct, addUser, deleteUser, upUser, getUser, getUsers} from '../models/database.js';
 
 
 export default {
     getMany: async (req, res) => {
         res.send(await getProducts());
+    },
+    getUs: async (req, res) => {
+    res.send(await getUsers());
     },
 
     postMany: async (req, res) => {
@@ -12,10 +15,22 @@ export default {
         res.send(await getProducts());
     },
 
+    postUs: async (req, res) => {
+        const{ userName, userLast, userEmail, userPass} = req.body;
+        await addUser(userName, userLast, userEmail, userPass);
+        res.send(await getUsers());
+    },
+
     getFew: async (req, res) => {
         const id = +req.params.id;
         const item = await getProduct(id);
         res.send(item);
+    },
+
+    getUser: async (req, res) => {
+        const uID = +req.params.userID;
+        const person = await getUser(uID);
+        res.send(person);
     },
 
     deleteMany: async (req, res) => {
@@ -26,6 +41,16 @@ export default {
         } catch (error) {
             res.status(404).json({ message: error.message });
         }
+    },
+
+    deletePerson: async (req, res) => {
+    const usID = req.params.id;
+    try{
+        const updateUser = await deleteUser(userID);
+        res.json(updateUser);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
     },
 
     patchMany: async (req, res) => {
@@ -41,5 +66,19 @@ export default {
 
         await upProduct(updatedProductName, updatedProductDes, updatedProductPrice, updatedProductIMG, updatedProductQuan, id);
         res.json(await getProducts());
+    },
+
+    patchPer: async (req, res) => {
+        const id = req.params.userID;
+        const user = await getUser(id);
+        const {userName, userLast, userEmail, userPass} = req.body;
+
+        const upUserName = userName || user.userName;
+        const upUserEmail = userEmail || user.userEmail;
+        const upUserPass = userPass || user.userPass;
+        const upUserLast = userLast || user.userLast;
+
+        await upUser(upUserName, upUserEmail, upUserPass, upUserLast, id);
+        res.json(await getUsers());
     }
 };
