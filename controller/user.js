@@ -43,4 +43,4 @@ export default {
         await upUser(upUserName, upUserEmail, upUserPass, upUserLast, id);
         res.json(await getUsers());
     }
-}
+};

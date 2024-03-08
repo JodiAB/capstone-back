@@ -1,4 +1,4 @@
-import { getProducts, getProduct, addProduct, upProduct, deleteProduct, addUser, deleteUser, upUser, getUser, getUsers} from '../models/database.js';
+import { getProducts, getProduct, addProduct, upProduct, deleteProduct} from '../models/database.js';
 
 
 export default {
