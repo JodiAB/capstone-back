@@ -1,17 +1,17 @@
 import express from "express";
-import controller from "../controller/items.js";
+import controller from "../controller/user.js";
 const router = express.Router();
 
-router.route("/").get(controller.getMany)
-                .post(controller.postMany);
+router.route("/").get(controller.getUs)
+                .post(controller.postUser);
 
 router
   .route("/:id")
   .get()
-  .get(controller.getFew)
+  .get(controller.getUser)
 
-  .delete(controller.deleteMany)
-  .patch(controller.patchMany);
+  .delete(controller.deletePerson)
+  .patch(controller.patchPer);
 
 // router.patch('/friends/:id', async (req, res) => {
 //     const {name,age} = req.body
