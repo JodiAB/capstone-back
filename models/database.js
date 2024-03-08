@@ -15,8 +15,18 @@ const getProducts = async () => {
     return result;
 }
 
+const getUsers = async() => {
+    const [result] = await pool.query(`SELECT * FROM users`);
+    return result;
+}
+
 const getProduct = async (id) => {
     const [result] = await pool.query(`SELECT * FROM product WHERE id = ?`, [id]);
+    return result;
+}
+
+getUser = async (id) => {
+    const [result] = await pool.query(`SELECT * FROM users WHERE id = ?`, [id]);
     return result;
 }
 
@@ -26,11 +36,20 @@ const addProduct = async (productName, productDes, productPrice, productIMG, pro
     return getProduct(product.insertId);
 }
 
+const addUser = async (userName, userLast, userEmail, userPass) =>{
+    const [user] = await pool.query(`INSERT INTO users (userID, userName, userLast, userEmail, userPass) VALUES (?,?,?,?,?)`, [ userName, userLast, userEmail, userPass]); 
+    return getUser(user.insertId);
+}
+
 const upProduct = async (productName, productDes, productPrice, productIMG, productQuan, id) => {
     const [product] = await pool.query(`UPDATE product SET productName = ?, productDes = ?, productPrice =?, productIMG = ?, productQuan = ?  WHERE id = ?`, [productName, productDes, productPrice, productIMG, productQuan, id]);
     return product;
 }
 
+const upUser = async (userName, userLast, userEmail, userPass) => {
+    const [user] = await pool.query(`UPDATE user SET userName = ?, userLast = ?, userEmail = ?, userPass =? WHERE userID = ?`, [userName, userLast, userEmail, userPass]);
+    return user;
+}
 
 const deleteProduct = async (id) => {
     const products = await getProducts();
@@ -41,4 +60,16 @@ const deleteProduct = async (id) => {
     return updatedProducts;
 };
 
-export { getProducts, getProduct, addProduct, upProduct, deleteProduct};
+const deleteUser = async (id) => {
+    const users = await getUsers();
+    const updatedUsers = users.filter(user => user.userID !== userID);
+    if (updatedUsers.length === users.length) {
+        throw new Error(`User with id ${userID} not found`);
+    }
+    return updatedUsers;
+
+};
+
+
+
+export { getProducts, getProduct, addProduct, upProduct, deleteProduct, addUser, deleteUser, upUser};
