@@ -2,12 +2,13 @@ import express from "express";
 import controller from "../controller/items.js";
 const router = express.Router();
 
-router.route("/").get(controller.getMany).post(controller.postMany);
+router.route("/").get(controller.getMany, controller.getUs)
+                .post(controller.postMany, controller.postUs);
 
 router
   .route("/:id")
   .get()
-  .get(controller.getFew)
+  .get(controller.getFew, controller.getUser)
 
   .delete(controller.deleteMany)
   .patch(controller.patchMany);
