@@ -1,17 +1,4 @@
-import mysql from 'mysql2';
-import { config } from 'dotenv';
-import { connect } from 'http2';
-
-config();
-
-const pool = mysql.createPool({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    connectionLimit:30,
-    multipleStatements: true
-}).promise();
+import {pool} from '../config/config.js'
 
 const getProducts = async () => {
     const [result] = await pool.query(`SELECT * FROM product`);
@@ -82,10 +69,10 @@ const deleteUser = async (userID) => {
 
 };
 
+// database.js
 const checkUser = async (userEmail) => {
     const [[{ userPass }]] = await pool.query(`SELECT userPass FROM users WHERE userEmail = ?`, [userEmail]);
     return userPass;
 };
-
 
 export { getProducts, getProduct, addProduct, upProduct, deleteProduct, addUser, deleteUser, upUser, getUser, getUsers,checkUser};

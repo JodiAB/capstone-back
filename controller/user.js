@@ -1,4 +1,5 @@
 import { addUser, deleteUser, upUser, getUser, getUsers } from '../models/database.js';
+import bcrypt from 'bcrypt'
 
 export default {
     getUsers: async (req, res) => {
@@ -13,13 +14,24 @@ export default {
     postUser: async (req, res) => {
         try {
             const { userName, userLast, userEmail, userPass } = req.body;
-            await addUser(userName, userLast, userEmail, userPass);
-            const users = await getUsers();
-            res.send(users);
+    
+            // Hash the password using bcrypt
+            const hash = await bcrypt.hash(userPass, 10);
+    
+            // Add the user with the hashed password
+            await addUser(userName, userLast, userEmail, hash);
+    
+            // Send a success response
+            res.send({
+                msg: 'You have successfully created an account'
+            });
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            // Handle errors
+            console.error('Error creating an account:', error);
+            res.status(500).send('Error creating an account');
         }
     },
+    
 
     getUserById: async (req, res) => {
         try {

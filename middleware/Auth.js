@@ -2,14 +2,15 @@ import { checkUser } from '../models/database.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+
 const login = async (req, res, next) => {
     try {
         const { userEmail, userPass } = req.body;
-        console.log(userEmail);
         
         const hashedPassword = await checkUser(userEmail);
         const result = await bcrypt.compare(userPass, hashedPassword);
-
+        console.log(hashedPassword);
+        console.log(result);
         if (result === true) {
             console.log(userEmail);
             const token = jwt.sign({ email: userEmail }, process.env.SECRET_KEY, { expiresIn: '3m' });
