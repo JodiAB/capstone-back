@@ -35,7 +35,7 @@ export default {
 
     getUserById: async (req, res) => {
         try {
-            const userId = +req.params.userID;
+            const userId = +req.params.id;
             const person = await getUser(userId);
             res.send(person);
         } catch (error) {
@@ -44,10 +44,13 @@ export default {
     },
 
     deletePerson: async (req, res) => {
-        const userId = req.params.id;
         try {
-            const updateUser = await deleteUser(userId);
-            res.json(updateUser);
+            const userID = req.params.id;
+            await deleteUser(userID)
+            const users = await getUsers()
+            res.json({
+                msg: 'User deleted', users
+            })
         } catch (error) {
             res.status(404).json({ message: error.message });
         }

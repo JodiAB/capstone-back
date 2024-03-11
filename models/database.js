@@ -15,8 +15,8 @@ const getProduct = async (id) => {
     return result;
 }
 
-const getUser = async (id) => {
-    const [result] = await pool.query(`SELECT * FROM users WHERE id = ?`, [id]);
+const getUser = async (userid) => {
+    const [result] = await pool.query(`SELECT * FROM users WHERE userid = ?`, [userid]);
     return result;
 }
 
@@ -60,12 +60,7 @@ const deleteProduct = async (id) => {
 };
 
 const deleteUser = async (userID) => {
-    const users = await getUsers();
-    const updatedUsers = users.filter(user => user.userID !== userID);
-    if (updatedUsers.length === users.length) {
-        throw new Error(`User with id ${userID} not found`);
-    }
-    return updatedUsers;
+    await pool.query(`DELETE FROM users where userID = ?`,[userID])
 
 };
 
