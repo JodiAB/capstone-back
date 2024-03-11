@@ -1,46 +1,66 @@
-import {addUser, deleteUser, upUser, getUser, getUsers} from '../models/database.js';
+import { addUser, deleteUser, upUser, getUser, getUsers } from '../models/database.js';
 
 export default {
+    getUsers: async (req, res) => {
+        try {
+            const users = await getUsers();
+            res.send(users);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
 
-    getUs: async (req, res) => {
-        res.send(await getUsers());
-        },
-
-        postUs: async (req, res) => {
-            const{ userName, userLast, userEmail, userPass} = req.body;
+    postUser: async (req, res) => {
+        try {
+            const { userName, userLast, userEmail, userPass } = req.body;
             await addUser(userName, userLast, userEmail, userPass);
-            res.send(await getUsers());
-        },
+            const users = await getUsers();
+            res.send(users);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
 
-        getUser: async (req, res) => {
-            const uID = +req.params.userID;
-            const person = await getUser(uID);
+    getUserById: async (req, res) => {
+        try {
+            const userId = +req.params.userID;
+            const person = await getUser(userId);
             res.send(person);
-        },
-        
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
 
-        deletePerson: async (req, res) => {
-            const usID = req.params.id;
-            try{
-                const updateUser = await deleteUser(userID);
-                res.json(updateUser);
-            } catch (error) {
-                res.status(404).json({ message: error.message });
-            }
-            },
+    deletePerson: async (req, res) => {
+        const userId = req.params.id;
+        try {
+            const updateUser = await deleteUser(userId);
+            res.json(updateUser);
+        } catch (error) {
+            res.status(404).json({ message: error.message });
+        }
+    },
 
-            
-    patchPer: async (req, res) => {
-        const id = req.params.userID;
-        const user = await getUser(id);
-        const {userName, userLast, userEmail, userPass} = req.body;
+    patchUser: async (req, res) => {
+        try {
+            const id = req.params.userID;
+            const user = await getUser(id);
+            const { userName, userLast, userEmail, userPass } = req.body;
 
-        const upUserName = userName || user.userName;
-        const upUserEmail = userEmail || user.userEmail;
-        const upUserPass = userPass || user.userPass;
-        const upUserLast = userLast || user.userLast;
+            const upUserName = userName || user.userName;
+            const upUserEmail = userEmail || user.userEmail;
+            const upUserPass = userPass || user.userPass;
+            const upUserLast = userLast || user.userLast;
 
-        await upUser(upUserName, upUserEmail, upUserPass, upUserLast, id);
-        res.json(await getUsers());
+            await upUser(upUserName, upUserEmail, upUserPass, upUserLast, id);
+            const users = await getUsers();
+            res.json(users);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    login: async (req, res) => {
+        // Implement login logic here
     }
 };
