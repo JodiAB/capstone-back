@@ -51,13 +51,9 @@ const upUser = async (userName, userLast, userEmail, userPass, userID) => {
 };
 
 const deleteProduct = async (id) => {
-    const products = await getProducts();
-    const updatedProducts = products.filter(product => product.id !== id);
-    if (updatedProducts.length === products.length) {
-        throw new Error(`Product with id ${id} not found`);
-    }
-    return updatedProducts;
-};
+    await pool.query(`DELETE FROM product where id = ?`,[id])
+    return getProducts
+}
 
 const deleteUser = async (userID) => {
     await pool.query(`DELETE FROM users where userID = ?`,[userID])

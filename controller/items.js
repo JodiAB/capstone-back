@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { getProducts, getProduct, addProduct, upProduct, deleteProduct} from '../models/database.js';
 
 
@@ -23,12 +24,16 @@ export default {
 
    
     deleteMany: async (req, res) => {
-        const id = +req.params.id;
         try {
-            const updatedProducts = await deleteProduct(id);
-            res.json(updatedProducts);
+            const id = +req.params.id;
+            await deleteProduct(id)
+            const product = await getProducts()
+            res.json({
+                msg: 'Product deleted successfully',product
+            })
         } catch (error) {
-            res.status(404).json({ message: error.message });
+            console.error('Error deleting product');
+            res.status(404).json({ error: 'error deleting product' });
         }
     },
 
