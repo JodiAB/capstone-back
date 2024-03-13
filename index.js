@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 import cors from 'cors';
 import router from './routes/items.js';
 import userRouter from './routes/user.js';
-import loginRouter from './routes/login.js';
+import login from './routes/login.js';
 import loginMiddleware from './middleware/Auth.js';
 import cookieParser from 'cookie-parser';
 import authController from './controller/authController.js';

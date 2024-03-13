@@ -2,8 +2,10 @@ import express from "express";
 import controller from "../controller/items.js";
 const router = express.Router();
 
-router.route("/").get(controller.getMany)
-                .post(controller.postMany);
+router
+  .route('/')
+      .get(controller.getMany)
+      .post(controller.postMany);
 
 router
   .route("/:id")
