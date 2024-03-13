@@ -65,10 +65,20 @@ const deleteUser = async (userID) => {
 
 };
 
-// database.js
+
 const checkUser = async (userEmail) => {
-    const [[{ userPass }]] = await pool.query(`SELECT userPass FROM users WHERE userEmail = ?`, [userEmail]);
-    return userPass;
+    try {
+        const [rows] = await pool.query('SELECT userPass FROM users WHERE userEmail = ?', [userEmail]);
+        if (rows.length > 0) {
+            return rows[0].userPass; // Assuming userPass is a column in your users table
+        }
+        return null; // User not found
+    } catch (error) {
+        console.error('Error checking user:', error);
+        throw new Error('Error checking user');
+    }
 };
+
+
 
 export { getProducts, getProduct, addProduct, upProduct, deleteProduct, addUser, deleteUser, upUser, getUser, getUsers,checkUser};

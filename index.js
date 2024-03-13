@@ -3,10 +3,10 @@ import { config } from 'dotenv';
 import cors from 'cors';
 import router from './routes/items.js';
 import userRouter from './routes/user.js';
-import login from './routes/login.js';
-import loginMiddleware from './middleware/Auth.js';
+import loginRouter from './routes/login.js';
+import login from './middleware/Auth.js';
 import cookieParser from 'cookie-parser';
-import authController from './controller/authController.js';
+// import authController from './controller/authController.js';
 
 config();
 
@@ -26,8 +26,8 @@ app.use(cookieParser());
 
 app.use('/product', router); 
 app.use('/users', userRouter); 
-app.use('/login', loginMiddleware, login); 
-app.post('/register', authController.register);
+app.use('/login', login,loginRouter); 
+// app.post('/register', authController.register);
 
 app.listen(PORT, () =>
     console.log(`Server is running on http://localhost:${PORT}`)
