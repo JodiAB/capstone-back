@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 app.use('/product', router); 
 app.use('/users', userRouter); 
-app.use('/login', loginMiddleware, loginRouter); 
+app.use('/login', loginMiddleware, login); 
 app.post('/register', authController.register);
 
 app.listen(PORT, () =>
