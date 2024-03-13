@@ -2,7 +2,7 @@ import { checkUser } from '../models/database.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-const loginController = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { userEmail, userPass } = req.body;
 
