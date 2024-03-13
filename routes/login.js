@@ -1,10 +1,10 @@
 import express from "express";
-import controller from '../controller/login.js'
+import login from '../controller/login.js'; // Corrected import statement
 
 const router = express.Router();
 
 router
     .route('/')
-    .post(controller.login)
+    .post(login); // Using the imported login function directly
 
-export default router
+export default router;
