@@ -1,10 +1,10 @@
 import express from "express";
-import controller from '../controller/user.js'
+import controller from '../controller/loginCont.js'
 
 const router = express.Router();
 
 router
     .route('/')
-    .post(controller.login)
+    .post(controller.loginCont)
 
 export default router

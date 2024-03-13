@@ -1,5 +1,15 @@
 import {pool} from '../config/config.js'
+import mysql from 'mysql2/promise';
 
+const pool = mysql.createPool({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+  });
 const getProducts = async () => {
     const [result] = await pool.query(`SELECT * FROM product`);
     return result;
@@ -26,18 +36,21 @@ const addProduct = async (productName, productDes, productPrice, productIMG, pro
     return getProduct(product.insertId);
 }
 
+
 const addUser = async (userName, userLast, userEmail, userPass) => {
     try {
-        // Execute the SQL query to insert the user into the users table
-        await pool.query(
-            'INSERT INTO users (userName, userLast, userEmail, userPass) VALUES (?, ?, ?, ?)',
-            [userName, userLast, userEmail, userPass]
-        );
+      const connection = await pool.getConnection();
+      const [result] = await connection.execute(
+        'INSERT INTO users (userName, userLast, userEmail, userPass) VALUES (?, ?, ?, ?)',
+        [userName, userLast, userEmail, userPass]
+      );
+      connection.release();
+      return result.insertId;
     } catch (error) {
-        throw new Error('Failed to add user to the database');
+      console.error('Error adding user to database:', error);
+      throw error;
     }
-};
-
+  };
 
 
 const upProduct = async (productName, productDes, productPrice, productIMG, productQuan, id) => {

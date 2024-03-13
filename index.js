@@ -8,7 +8,6 @@ import loginMiddleware from './middleware/Auth.js';
 import cookieParser from 'cookie-parser';
 import authController from './controller/authController.js';
 
-
 config();
 
 const PORT = process.env.PORT || 3000;
@@ -17,17 +16,17 @@ const app = express();
 
 app.use(cors({
     origin: 'http://localhost:8080',
-    credentials:true
+    credentials: true
 })); 
-app.use(express.json()); // Middleware parsing JSON request bodies
-app.use(cookieParser()); // Middleware parsing cookies
+
+app.use(express.json()); 
+app.use(cookieParser()); 
 
 
 
-// Routes
-app.use('/product', router); // Product routes
-app.use('/users', userRouter); // User routes
-app.use('/login', loginMiddleware, loginRouter); // Login routes
+app.use('/product', router); 
+app.use('/users', userRouter); 
+app.use('/login', loginMiddleware, loginRouter); 
 app.post('/register', authController.register);
 
 app.listen(PORT, () =>
