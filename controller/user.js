@@ -78,6 +78,8 @@ export default {
     login: async (req, res) => {
         try {
             const { userEmail, userPass } = req.body;
+            const userData = await getUser(userEmail);
+            console.log(userData)
             const hashedPassword = await checkUser(userEmail);
             if (!hashedPassword) {
                 return res.status(404).json({ message: 'User not found' });
@@ -87,7 +89,7 @@ export default {
                 return res.status(401).json({ message: 'Invalid email or password' });
             }
             const token = jwt.sign({ userEmail }, process.env.SECRET_KEY, { expiresIn: '1h' });
-            res.json({ token });
+            res.json({ status: 200, token });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }

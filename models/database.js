@@ -1,4 +1,7 @@
 import {pool} from '../config/config.js'
+const Basket = require('./basket');
+const axios = require('axios')
+
 
 const getProducts = async () => {
     const [result] = await pool.query(`SELECT * FROM product`);
@@ -82,5 +85,8 @@ const checkUser = async (userEmail) => {
 };
 
 
+module.exports = {
+    basket: new Basket(),
+};
 
 export { getProducts, getProduct, addProduct, upProduct, deleteProduct, addUser, deleteUser, upUser, getUser, getUsers,checkUser};
