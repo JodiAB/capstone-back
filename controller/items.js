@@ -44,8 +44,8 @@ export {
 
 routes.post("/login", bodyParser.json(), login);
 
-routes.get("/product", getMany);
-routes.post("/product", postMany);
+routes.get("/products", getMany);
+routes.post("/products", postMany);
 routes.get("/product/:id", getFew);
 routes.delete("/product/:id", deleteMany);
 routes.patch("/product/:id", patchMany);
