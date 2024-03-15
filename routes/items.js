@@ -1,25 +1,14 @@
 import express from "express";
-import controller from "../controller/items.js";
+import { getMany, postMany, getFew, deleteMany, patchMany } from "../controller/items.js";
 const router = express.Router();
 
-router
-  .route('/')
-      .get(controller.getMany)
-      .post(controller.postMany);
+router.route("/")
+  .get(getMany)
+  .post(postMany);
 
-router
-  .route("/:id")
-  .get()
-  .get(controller.getFew)
-
-  .delete(controller.deleteMany)
-  .patch(controller.patchMany);
-
-// router.patch('/friends/:id', async (req, res) => {
-//     const {name,age} = req.body
-//     const id = req.params.id;
-//     const up = await upFriend(id, name, age)
-//     res.send(await getFriends())
-// });
+router.route("/:id")
+  .get(getFew)
+  .delete(deleteMany)
+  .patch(patchMany);
 
 export default router;

@@ -1,42 +1,51 @@
 // controller.js
 import express from 'express';
 import bodyParser from 'body-parser';
-import Basket from '../models/basket.js';
+// import Basket from '../models/basket.js';
 import login from '../middleware/Auth.js';
 import { getProducts, getProduct, addProduct, upProduct, deleteProduct } from '../models/database.js';
 
 const routes = express.Router();
-const cart = new Basket();
+// const cart = new Basket();
 
-routes.use(bodyParser.json());
+// routes.use(bodyParser.json());
 
-routes.post('/add_to_cart', bodyParser.json(), (req, res) => {
-  verifyAToken(req, res, () => {
-    const { prodID, quantity } = req.body;
-    cart.addItem(prodID, quantity);
-    res.json({ status: res.statusCode, message: 'Item added to cart successfully' });
-  });
-});
+// routes.post('/add_to_cart', bodyParser.json(), (req, res) => {
+//   verifyAToken(req, res, () => {
+//     const { prodID, quantity } = req.body;
+//     cart.addItem(prodID, quantity);
+//     res.json({ status: res.statusCode, message: 'Item added to cart successfully' });
+//   });
+// });
 
-routes.delete('/remove_from_cart/:prodID', (req, res) => {
-  verifyAToken(req, res, () => {
-    const { prodID } = req.params;
-    cart.removeItem(prodID);
-    res.json({ status: res.statusCode, message: 'Item removed from cart successfully' });
-  });
-});
+// routes.delete('/remove_from_cart/:prodID', (req, res) => {
+//   verifyAToken(req, res, () => {
+//     const { prodID } = req.params;
+//     cart.removeItem(prodID);
+//     res.json({ status: res.statusCode, message: 'Item removed from cart successfully' });
+//   });
+// });
 
-routes.get('/view_cart', (req, res) => {
-  verifyAToken(req, res, () => {
-    const cartItems = cart.getItems();
-    res.json({ status: res.statusCode, cart: cartItems });
-  });
-});
+// routes.get('/view_cart', (req, res) => {
+//   verifyAToken(req, res, () => {
+//     const cartItems = cart.getItems();
+//     res.json({ status: res.statusCode, cart: cartItems });
+//   });
+// });
+
+export {
+  routes, // If you want to export the routes object
+  getMany,
+  postMany,
+  getFew,
+  deleteMany,
+  patchMany
+};
 
 routes.post("/login", bodyParser.json(), login);
 
-routes.get("/products", getMany);
-routes.post("/products", postMany);
+routes.get("/product", getMany);
+routes.post("/product", postMany);
 routes.get("/product/:id", getFew);
 routes.delete("/product/:id", deleteMany);
 routes.patch("/product/:id", patchMany);

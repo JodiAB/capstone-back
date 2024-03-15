@@ -1,12 +1,14 @@
-import {pool} from '../config/config.js'
-const Basket = require('./basket');
-const axios = require('axios')
+import { pool } from '../config/config.js'; // Assuming this is an ES module
+// import {Basket} from './basket.js'; // Update the import statement
 
+// const basket = new Basket();
 
 const getProducts = async () => {
     const [result] = await pool.query(`SELECT * FROM product`);
     return result;
 }
+
+
 
 const getProduct = async (id) => {
     const [result] = await pool.query(`SELECT * FROM product WHERE id = ?`, [id]);
@@ -85,8 +87,6 @@ const checkUser = async (userEmail) => {
 };
 
 
-module.exports = {
-    basket: new Basket(),
-};
+
 
 export { getProducts, getProduct, addProduct, upProduct, deleteProduct, addUser, deleteUser, upUser, getUser, getUsers,checkUser};
