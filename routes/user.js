@@ -1,16 +1,16 @@
 import express from "express";
 import controller from "../controller/user.js";
-const router = express.Router();
+const userRouter = express.Router();
 
-router
+userRouter
     .route('/')
         .get(controller.getUsers)
         .post(controller.postUser);
 
-router
+userRouter
     .route("/:id")
-        .get(controller.getUserById) // Specify the controller function for retrieving a user by ID
+        .get(controller.getUserById) 
         .delete(controller.deletePerson)
         .patch(controller.patchUser);
 
-export default router;
+export default userRouter;

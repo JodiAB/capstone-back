@@ -6,7 +6,6 @@ import userRouter from "./routes/user.js";
 import loginRouter from "./routes/login.js";
 import login from "./middleware/Auth.js";
 import cookieParser from "cookie-parser";
-// import authController from './controller/authController.js';
 
 config();
 
@@ -20,24 +19,19 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(express.json());
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "*");
-  res.header("Access-Control-Request-Methods", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  res.header("Access-Control-Expose-Headers", "Authorization");
-  next();
-});
-
+// Routes
 app.use("/product", router);
 app.use("/users", userRouter);
 app.use("/login", login, loginRouter);
-// app.post('/register', authController.register);
+
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
 
 app.listen(PORT, () =>
   console.log(`Server is running on http://localhost:${PORT}`)
