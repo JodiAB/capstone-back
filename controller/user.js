@@ -11,7 +11,7 @@ export default {
         }
     },
 
-    postUser: async (req, res) => {
+    register: async (req, res) => {
         try {
             const { userName, userLast, userEmail, userPass } = req.body;
             const hash = await bcrypt.hash(userPass, 10);

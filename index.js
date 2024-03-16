@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/product", router);
-app.use("/user", userRouter); // Use "/user" instead of "/users"
+app.use("/user", userRouter); 
 app.use("/login", login, loginRouter);
 
 
