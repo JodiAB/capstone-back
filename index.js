@@ -6,7 +6,7 @@ import userRouter from "./routes/user.js";
 import loginRouter from "./routes/login.js";
 import login from "./middleware/Auth.js";
 import cookieParser from "cookie-parser";
-
+import regRouter from "./routes/register.js";
 config();
 
 const PORT = process.env.PORT || 3000;
@@ -26,8 +26,7 @@ app.use(cookieParser());
 app.use("/product", router);
 app.use("/users", userRouter);
 app.use("/login", login, loginRouter);
-
-
+app.use("/register", regRouter);
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");

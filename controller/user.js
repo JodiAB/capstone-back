@@ -13,24 +13,17 @@ export default {
 
     postUser: async (req, res) => {
         try {
-            const { userName, userLast, userEmail, userPass } = req.body;
-    
-           
-            const hash = await bcrypt.hash(userPass, 10);
-    
-        
-            await addUser(userName, userLast, userEmail, hash);
-    
-       
-            res.send({
-                msg: 'You have successfully created an account'
-            });
+          const { userName, userLast, userEmail, userPass } = req.body;
+          const hash = await bcrypt.hash(userPass, 10);
+          await addUser(userName, userLast, userEmail, hash);
+          res.send({
+            msg: 'You have successfully created an account'
+          });
         } catch (error) {
-        
-            console.error('Error creating an account:', error);
-            res.status(500).send('Error creating an account');
+          console.error('Error creating an account:', error);
+          res.status(500).send('Error creating an account');
         }
-    },
+      },
     
 
     getUserById: async (req, res) => {
