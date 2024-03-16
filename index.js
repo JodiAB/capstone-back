@@ -6,7 +6,7 @@ import userRouter from "./routes/user.js";
 import loginRouter from "./routes/login.js";
 import login from "./middleware/Auth.js";
 import cookieParser from "cookie-parser";
-import regRouter from "../capstone-back/routes/register.js"
+import regRouter from "./routes/register.js"
 config();
 
 const PORT = process.env.PORT || 3000;

@@ -2,8 +2,7 @@ import express from "express";
 import controller from "../controller/user.js";
 const userRouter = express.Router();
 
-userRouter.route('/register')
-    .post(controller.register);
+
 
 
 userRouter.route('/:id')
