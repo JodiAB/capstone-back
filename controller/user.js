@@ -30,12 +30,13 @@ export default {
 
     getUserById: async (req, res) => {
         try {
-            const userId = +req.params.id;
+            const userId = +req.params.userID;
             const person = await getUser(userId);
             res.send(person);
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
+        res.json(person)
     },
 
     deletePerson: async (req, res) => {
