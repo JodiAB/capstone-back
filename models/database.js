@@ -36,8 +36,8 @@ const deleteProduct = async (id) => {
 
 
 
-const getUser = async (userid) => {
-    const [result] = await pool.query(`SELECT * FROM users WHERE userid = ?`, [userid]);
+const getUser = async (userID) => {
+    const [result] = await pool.query(`SELECT * FROM users WHERE userID = ?`, [userID]);
     return result;
 }
 const getUsers = async() => {

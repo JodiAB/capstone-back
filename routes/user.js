@@ -5,7 +5,7 @@ const userRouter = express.Router();
 
 
 
-userRouter.route('/:id')
+userRouter.route('/:userID')
     .get(controller.getUserById) 
     .delete(controller.deletePerson)
     .patch(controller.patchUser);
