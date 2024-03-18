@@ -7,29 +7,25 @@ import loginRouter from "./routes/login.js";
 import login from "./middleware/Auth.js";
 import cookieParser from "cookie-parser";
 import regRouter from "./routes/register.js";
-
-config(); 
+config();
 
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-// Middleware
 app.use(
   cors({
     origin: "http://localhost:8080", 
-    credentials: true, 
+    credentials: true,
   })
 );
 app.use(express.json());
-app.use(cookieParser()); 
+app.use(cookieParser());
 
 // Routes
 app.use("/product", router);
 app.use("/user", userRouter);
-app.use("/login", login, loginRouter); 
+app.use("/login", login, loginRouter);
 app.use("/register", regRouter);
-
-// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
