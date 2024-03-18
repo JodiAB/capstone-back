@@ -1,4 +1,3 @@
-
 import { checkUser } from '../models/database.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -9,22 +8,26 @@ const login = async (req, res, next) => {
         const hashedPassword = await checkUser(userEmail);
         
         bcrypt.compare(userPass, hashedPassword, (err, result) => {
-            if (err) throw err;
+            if (err) {
+                console.error('Error comparing passwords:', err);
+                return res.status(500).json({ msg: 'Internal server error' });
+            }
+            
             if (result === true) {
                 const token = jwt.sign({ email: userEmail }, process.env.SECRET_KEY, { expiresIn: '1h' });
-                res.send({
+                res.status(200).json({
                     token: token,
                     msg: 'You have logged in successfully'
                 });
             } else {
-                res.send({
+                res.status(401).json({
                     msg: 'Invalid email or password'
                 });
             }
         });
     } catch (error) {
-        console.error('Invalid email or password:', error);
-        res.status(404).send('Invalid email or password');
+        console.error('Error during login:', error);
+        res.status(500).json({ msg: 'Internal server error' });
     }
 };
 
