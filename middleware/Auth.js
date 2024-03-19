@@ -1,5 +1,3 @@
-// authController.js
-
 import { checkUser, getUser } from '../models/database.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -7,35 +5,27 @@ import jwt from 'jsonwebtoken';
 const login = async (req, res, next) => {
     try {
         const { userEmail, userPass } = req.body;
-        const user = await getUser(userEmail); 
-        if (!user) {
-            return res.status(401).json({
-                msg: 'Invalid email or password'
-            });
+        const userData = await getUser(userEmail);
+
+        if (!userData) {
+            return res.status(404).json({ message: 'User not found' });
         }
 
-        bcrypt.compare(userPass, user.userPass, (err, result) => {
-            if (err) {
-                console.error('Error comparing passwords:', err);
-                return res.status(500).json({ msg: 'Internal server error' });
-            }
-            
-            if (result === true) {
-                const token = jwt.sign({ userID: user.userID, userEmail: userEmail }, process.env.SECRET_KEY, { expiresIn: '1h' });
-                res.status(200).json({
-                    token: token,
-                    user: user,
-                    msg: 'You have logged in successfully'
-                });
-            } else {
-                res.status(401).json({
-                    msg: 'Invalid email or password'
-                });
-            }
-        });
+        const hashedPassword = await checkUser(userEmail);
+        if (!hashedPassword) {
+            return res.status(500).json({ message: 'Error retrieving user data' });
+        }
+
+        const match = await bcrypt.compare(userPass, hashedPassword);
+        if (!match) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        const token = jwt.sign({ userEmail }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        res.status(200).json({ token });
     } catch (error) {
         console.error('Error during login:', error);
-        res.status(500).json({ msg: 'Internal server error' });
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
 
