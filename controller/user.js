@@ -3,12 +3,18 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 // Function to check user's hashed password
-async function checkUser(email) {
-  // Implement logic to retrieve hashed password from your database based on userEmail
-  // Example:
-  const userData = await getUser(email);
-  return userData ? userData.userPass : null;
-}
+export async function checkUser(userEmail) {
+    try {
+      // Example: Using Sequelize ORM to retrieve hashed password
+      const user = await db.User.findOne({ where: { userEmail } });
+      if (!user) {
+        return null; // User not found
+      }
+      return user.userPass; // Return hashed password
+    } catch (error) {
+      throw new Error('Error checking user credentials');
+    }
+  }
 
 export default {
   getUsers: async (req, res) => {

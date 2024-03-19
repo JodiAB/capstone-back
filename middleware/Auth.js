@@ -22,7 +22,7 @@ const login = async (req, res, next) => {
         }
 
         const token = jwt.sign({ userEmail }, process.env.SECRET_KEY, { expiresIn: '1h' });
-        res.status(200).json({ token, userId: user.userID });        
+        res.status(200).json({ token, userId: userData.userID }); // Return userID from userData       
     } catch (error) {
         console.error('Error during login:', error);
         res.status(500).json({ message: 'Internal server error' });
