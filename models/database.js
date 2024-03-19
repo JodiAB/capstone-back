@@ -89,4 +89,16 @@ const checkUser = async (userEmail) => {
 
 
 
-export { getProducts, getProduct, addProduct, upProduct, deleteProduct, addUser, deleteUser, upUser, getUser, getUsers,checkUser};
+export {
+    getProducts,
+    getProduct,
+    addProduct,
+    upProduct,
+    deleteProduct,
+    addUser,
+    deleteUser,
+    upUser,
+    getUser,
+    getUsers,
+    checkUser 
+};
