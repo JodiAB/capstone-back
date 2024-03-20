@@ -21,7 +21,14 @@ const login = async (req, res, next) => {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
-        const token = jwt.sign({ userEmail }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        // Include user details in the JWT payload
+        const token = jwt.sign({ 
+            userID: userData.userID,
+            userEmail: userData.userEmail,
+            firstName: userData.firstName,
+            lastName: userData.lastName
+        }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        
         res.status(200).json({ token, userId: userData.userID }); // Return userID from userData       
     } catch (error) {
         console.error('Error during login:', error);
