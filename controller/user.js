@@ -15,6 +15,7 @@ export default {
     }
   },
 
+
   register: async (req, res) => {
     try {
       const { userName, userLast, userEmail, userPass } = req.body;
@@ -38,7 +39,7 @@ export default {
       res.status(500).json({ message: error.message });
     }
   },
-  checkUser: async(userEmail) => {
+   checkUser:  async (userEmail) => {
     try {
       // Example: Using Sequelize ORM to retrieve hashed password
       const user = await db.User.findOne({ where: { userEmail } });
@@ -50,7 +51,6 @@ export default {
       throw new Error('Error checking user credentials');
     }
   },
-
   deletePerson: async (req, res) => {
     try {
       const userID = req.params.id;
@@ -88,28 +88,27 @@ export default {
     try {
       const { userEmail, userPass } = req.body;
       const userData = await getUser(userEmail);
-  
+
       if (!userData) {
         return res.status(404).json({ message: 'User not found' });
       }
-  
+
       const hashedPassword = await checkUser(userEmail);
       if (!hashedPassword) {
         return res.status(500).json({ message: 'Error retrieving user data' });
       }
-  
+
       const match = await bcrypt.compare(userPass, hashedPassword);
       if (!match) {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
-  
-      const userId = userData.userID; 
-  
+
+      const userId = userData.userID;
 
       const token = jwt.sign({ userId, userEmail }, process.env.SECRET_KEY, { expiresIn: '1h' });
-      const userInfo = await getPerson(userId); // 
-  
-      res.status(200).json({ token, userInfo }); // Return user data along with token
+      const userInfo = await getPerson(userId);
+
+      res.status(200).json({ token, userInfo });
     } catch (error) {
       console.error('Error during login:', error);
       res.status(500).json({ message: 'Internal server error' });
