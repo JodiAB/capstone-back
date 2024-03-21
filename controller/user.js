@@ -85,28 +85,28 @@ export default {
   login: async (req, res, next) => {
     try {
       const { userEmail, userPass } = req.body;
-  
-      // Fetch user data by email
+
+      // Fetch user data by email using getUserByEmail function
       const user = await getUserByEmail(userEmail);
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-  
+
       // Compare hashed password
       const hashedPassword = await checkUser(userEmail);
       if (!hashedPassword) {
         return res.status(500).json({ message: 'Error retrieving user data' });
       }
-  
+
       // Compare passwords
       const match = await bcrypt.compare(userPass, hashedPassword);
       if (!match) {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
-  
+
       // Generate JWT token
       const token = jwt.sign({ userEmail }, process.env.SECRET_KEY, { expiresIn: '1h' });
-  
+
       // Send response with token and user ID
       res.status(200).json({ token, userId: user.userID });
     } catch (error) {
@@ -114,5 +114,4 @@ export default {
       res.status(500).json({ message: 'Internal server error' });
     }
   }
-  
 };
