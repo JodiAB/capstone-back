@@ -7,8 +7,16 @@ const getProducts = async () => {
     const [result] = await pool.query(`SELECT * FROM product`);
     return result;
 }
-
-
+const getUserByEmail = async (userEmail) => {
+    try {
+      const [result] = await pool.query('SELECT * FROM users WHERE userEmail = ?', [userEmail]);
+      return result.length ? result[0] : null;
+    } catch (error) {
+      console.error('Error fetching user by email:', error);
+      throw error;
+    }
+  };
+  
 
 const getProduct = async (id) => {
     const [result] = await pool.query(`SELECT * FROM product WHERE id = ?`, [id]);
@@ -86,46 +94,10 @@ const checkUser = async (userEmail) => {
     }
 };
 
-// database.js
 
-const getUserByEmail = async (userEmail) => {
-    try {
-      const [result] = await pool.query(`SELECT * FROM users WHERE userEmail = ?`, [userEmail]);
-      if (result.length === 0) {
-        return null; // User not found
-      }
-      return result[0]; // Return user data
-    } catch (error) {
-      console.error('Error fetching user by email:', error);
-      throw error;
-    }
-  };
-  
-  export {
-    // Other exports
-    getUserByEmail,
-  };
+
   
 
-
-const getPerson = async (userID) => {
-    try {
-        const [result] = await pool.query(`SELECT * FROM users WHERE userID = ?`, [userID]);
-        if (result.length === 0) {
-            throw new Error('User not found');
-        }
-        const user = result[0];
-        return {
-            userID: user.userID,
-            userName: user.userName,
-            userLast: user.userLast,
-            userEmail: user.userEmail,
-            // Add other user properties as needed
-        };
-    } catch (error) {
-        throw new Error('Error fetching user details');
-    }
-};
 
 
 
@@ -140,7 +112,7 @@ export {
     upUser,
     getUser,
     getUsers,
-    checkUser,
-    getPerson
-
+    checkUser, 
+    getUserByEmail,
+    
 };
