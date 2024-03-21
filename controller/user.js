@@ -1,4 +1,4 @@
-import { addUser, deleteUser, upUser, getUser, getUsers, checkUser, getPerson } from '../models/database.js';
+import { addUser, deleteUser, upUser, getUser, getUsers, checkUser } from '../models/database.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 const login = async (req, res, next) => {
@@ -116,4 +116,33 @@ export default {
   },
   login: login
 
+  login: async (req, res, next) => {
+    try {
+        const { userEmail, userPass } = req.body;
+        const userData = await getUser(userEmail);
+
+        if (!userData) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const hashedPassword = await checkUser(userEmail);
+        if (!hashedPassword) {
+            return res.status(500).json({ message: 'Error retrieving user data' });
+        }
+
+        console.log('User Data:', userData);
+        console.log('Hashed Password:', hashedPassword);
+
+        const match = await bcrypt.compare(userPass, hashedPassword);
+        if (!match) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        const token = jwt.sign({ userEmail }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        res.status(200).json({ token, userId: userData.userID });        
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
 };

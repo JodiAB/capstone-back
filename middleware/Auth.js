@@ -12,7 +12,7 @@ const login = async (req, res, next) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        const hashedPassword = await checkUser(userEmail); // ReferenceError: checkUser is not defined
+        const hashedPassword = await checkUser(userEmail); 
         if (!hashedPassword) {
             return res.status(500).json({ message: 'Error retrieving user data' });
         }
