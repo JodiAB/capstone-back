@@ -93,6 +93,66 @@ const checkUser = async (userEmail) => {
         throw new Error('Error checking user');
     }
 };
+  const addToCart = async (userId, productId, quantity, price, imageUrl) => {
+        try {
+          const query = `
+            INSERT INTO shopping_cart (user_id, product_id, quantity, price, image_url)
+            VALUES (?, ?, ?, ?, ?)
+          `;
+          await pool.query(query, [userId, productId, quantity, price, imageUrl]);
+          return { success: true, message: 'Item added to cart successfully' };
+        } catch (error) {
+          console.error('Error adding item to cart:', error);
+          return { success: false, message: 'Error adding item to cart' };
+        }
+      };
+
+      async function updateCart(cartItemId, newQuantity) {
+        try {
+          const query = `
+            UPDATE shopping_cart
+            SET quantity = ?
+            WHERE cart_item_id = ?
+          `;
+          await pool.query(query, [newQuantity, cartItemId]);
+          return { success: true, message: 'Cart item quantity updated successfully' };
+        } catch (error) {
+          console.error('Error updating cart item quantity:', error);
+          return { success: false, message: 'Error updating cart item quantity' };
+        }
+      };
+
+// Function to get all cart items for a user
+async function getCartUser(userId) {
+    try {
+      const query = `
+        SELECT * FROM shopping_cart
+        WHERE user_id = ?
+      `;
+      const cartItems = await pool.query(query, [userId]);
+      return { success: true, cartItems };
+    } catch (error) {
+      console.error('Error fetching cart items:', error);
+      return { success: false, message: 'Error fetching cart items' };
+    }
+  };
+
+  // Function to remove an item from the cart
+async function removeCart(cartItemId) {
+    try {
+      const query = `
+        DELETE FROM shopping_cart
+        WHERE cart_item_id = ?
+      `;
+      await pool.query(query, [cartItemId]);
+      return { success: true, message: 'Item removed from cart successfully' };
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+      return { success: false, message: 'Error removing item from cart' };
+    }
+  }
+  
+  
 
 
 export {
@@ -108,4 +168,10 @@ export {
     getUsers,
     checkUser, 
     getEmail,
+    addToCart,
+    updateCart,
+    getCartUser,
+    removeCart,
+
+    
 };
