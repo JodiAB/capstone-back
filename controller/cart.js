@@ -1,21 +1,27 @@
 import { addToCart, updateCart, getCartUser, removeCart } from '../models/database.js';
 
-async function addCart(req, res) {
-           const { userId, productId, quantity, price, imageUrl } = req.body;
+const addCart = async (req, res) => {
+           const { user_id, product_id, quantity } = req.body;
+         
            try {
-             const result = await addToCart(userId, productId, quantity, price, imageUrl);
-             if (result.success) {
-               res.status(201).json({ message: 'Item added to cart successfully' });
-             } else {
-               throw new Error(result.message);
-             }
+             // Create a new cart item object
+             const cartItem = new CartItem({
+               user_id,
+               product_id,
+               quantity,
+             });
+         
+             // Save the cart item to the database
+             await cartItem.save();
+         
+             res.status(201).json(cartItem); // Respond with the added cart item
            } catch (error) {
              console.error('Error adding item to cart:', error);
              res.status(500).json({ message: 'Error adding item to cart' });
            }
-         }
-         
-         // Controller function to update quantity of an item in the cart
+         };
+        
+
          async function updateCartItem(req, res) {
            const { cartItemId, newQuantity } = req.body;
            try {
@@ -29,7 +35,7 @@ async function addCart(req, res) {
              console.error('Error updating cart item quantity:', error);
              res.status(500).json({ message: 'Error updating cart item quantity' });
            }
-         }
+         };
          
          // Controller function to get all cart items for a user
          async function getCartItems(req, res) {
@@ -45,7 +51,7 @@ async function addCart(req, res) {
              console.error('Error fetching cart items:', error);
              res.status(500).json({ message: 'Error fetching cart items' });
            }
-         }
+         };
          
        
          async function removeFromCart(req, res) {
@@ -61,6 +67,6 @@ async function addCart(req, res) {
              console.error('Error removing item from cart:', error);
              res.status(500).json({ message: 'Error removing item from cart' });
            }
-         }
+         };
 
          export { addCart, updateCartItem, getCartItems, removeFromCart };

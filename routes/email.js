@@ -4,7 +4,7 @@ import { fetchUserByEmail } from './controller/user.js';
 
 const emailRouter = express.Router();
 
-// Route to fetch user data by email
+
 emailRouter.get('/user/userEmail', fetchUserByEmail);
 
 export default emailRouter;
