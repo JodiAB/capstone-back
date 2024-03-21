@@ -34,7 +34,7 @@ const routes = express.Router();
 // });
 
 export {
-  routes, // If you want to export the routes object
+  routes, 
   getMany,
   postMany,
   getFew,

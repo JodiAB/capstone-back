@@ -1,21 +1,21 @@
-import { pool } from '../config/config.js'; // Assuming this is an ES module
-// import {Basket} from './basket.js'; // Update the import statement
+import { pool } from '../config/config.js'; 
 
-// const basket = new Basket();
+
+
 
 const getProducts = async () => {
     const [result] = await pool.query(`SELECT * FROM product`);
     return result;
 }
-const getUserByEmail = async (userEmail) => {
+const getEmail = async (userEmail) => {
     try {
-      const [result] = await pool.query('SELECT * FROM users WHERE userEmail = ?', [userEmail]);
-      return result.length ? result[0] : null;
+        const [result] = await pool.query('SELECT * FROM users WHERE userEmail = ?', [userEmail]);
+        return result.length ? result[0] : null;
     } catch (error) {
-      console.error('Error fetching user by email:', error);
-      throw error;
+        console.error('Error fetching user by email:', error);
+        throw error;
     }
-  };
+};
   
 
 const getProduct = async (id) => {
@@ -95,12 +95,6 @@ const checkUser = async (userEmail) => {
 };
 
 
-
-  
-
-
-
-
 export {
     getProducts,
     getProduct,
@@ -113,6 +107,5 @@ export {
     getUser,
     getUsers,
     checkUser, 
-    getUserByEmail,
-    
+    getEmail,
 };

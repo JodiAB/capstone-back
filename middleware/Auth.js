@@ -1,4 +1,4 @@
-import { checkUser, getUserByEmail } from '../models/database.js';
+import { checkUser, getEmail } from '../models/database.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -11,7 +11,7 @@ const login = async (req, res, next) => {
       return res.status(400).json({ message: 'Email and password are required' });
     }
 
-    const user = await getUserByEmail(userEmail);
+    const user = await getEmail(userEmail);
     if (!user) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
