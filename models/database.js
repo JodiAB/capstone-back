@@ -86,6 +86,27 @@ const checkUser = async (userEmail) => {
     }
 };
 
+// database.js
+
+const getUserByEmail = async (userEmail) => {
+    try {
+      const [result] = await pool.query(`SELECT * FROM users WHERE userEmail = ?`, [userEmail]);
+      if (result.length === 0) {
+        return null; // User not found
+      }
+      return result[0]; // Return user data
+    } catch (error) {
+      console.error('Error fetching user by email:', error);
+      throw error;
+    }
+  };
+  
+  export {
+    // Other exports
+    getUserByEmail,
+  };
+  
+
 
 const getPerson = async (userID) => {
     try {
