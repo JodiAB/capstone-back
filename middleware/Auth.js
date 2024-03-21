@@ -1,5 +1,4 @@
 // Import checkUser function
-import Controller from '../controller/user.js';
 import { getUser } from '../models/database.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -13,7 +12,7 @@ const login = async (req, res, next) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        const hashedPassword = await checkUser(userEmail); // Now checkUser is defined
+        const hashedPassword = await checkUser(userEmail); // ReferenceError: checkUser is not defined
         if (!hashedPassword) {
             return res.status(500).json({ message: 'Error retrieving user data' });
         }
