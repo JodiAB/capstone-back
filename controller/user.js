@@ -6,7 +6,8 @@ import { getEmail, getUsers, addUser, deleteUser, upUser } from '../models/datab
 
 const router = express.Router();
 router.use(bodyParser.json());
-
+const emailRouter = express.Router();
+emailRouter.get('/user/userEmail', fetchUserByEmail);
 // Routes
 router.post('/login', bodyParser.json(), login);
 router.post('/register', bodyParser.json(), register);
@@ -74,6 +75,18 @@ async function login(req, res) {
   }
 }
 
+async function fetchUserByEmail(req, res) {
+  const { email } = req.query;
+
+  try {
+    const user = await getEmail(email);
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error fetching user by email:', error);
+    res.status(500).json({ message: 'Error fetching user by email' });
+  }
+}
+
 async function getMany(req, res) {
   try {
     const users = await getUsers();
@@ -137,5 +150,7 @@ export {
   getFew,
   deleteMany,
   patchMany,
-  register
+  register,
+  fetchUserByEmail,
+  emailRouter
 };
