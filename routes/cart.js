@@ -1,4 +1,4 @@
-// Import necessary modules and controller functions
+
 import express from 'express';
 import {addCart,updateCartItem,getCartItems,removeFromCart,} from '../controller/cart.js'; 
 

@@ -1,6 +1,8 @@
 import { addToCart, updateCart, getCartUser, removeCart } from '../models/database.js';
 
 const addCart = async (req, res) => {
+
+  console.log('Received request to add to cart');
   const { userId, productId, quantity, price, imageUrl } = req.body; 
   
   try {

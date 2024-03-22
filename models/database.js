@@ -49,7 +49,7 @@ const getUser = async (userID) => {
     return result;
 }
 const getUsers = async() => {
-    const [result] = await pool.query(`SELECT * FROM users`);
+    const [result] = await pool.query(`SELECT * FROM blmbpyyscmoqbhhxbk1s.users;`);
     return result;
 }
 

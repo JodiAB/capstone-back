@@ -23,21 +23,16 @@ async function register(req, res) {
   try {
     const { userName, userLast, userEmail, userPass } = req.body;
 
-    // Validate input
     if (!userName || !userLast || !userEmail || !userPass) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Check if user with the provided email already exists
     const existingUser = await getEmail(userEmail);
     if (existingUser) {
       return res.status(409).json({ message: 'User with this email already exists' });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(userPass, 10);
-
-    // Add the user to the database
     const userId = await addUser(userName, userLast, userEmail, hashedPassword);
 
     res.status(201).json({ message: 'User registered successfully', userId });
@@ -46,6 +41,7 @@ async function register(req, res) {
     res.status(500).json({ message: 'Error registering user' });
   }
 }
+
 async function login(req, res) {
   try {
     const { userEmail, userPass } = req.body;
