@@ -1,25 +1,20 @@
 import { addToCart, updateCart, getCartUser, removeCart } from '../models/database.js';
 
 const addCart = async (req, res) => {
-           const { user_id, product_id, quantity } = req.body;
-         
-           try {
-             // Create a new cart item object
-             const cartItem = new CartItem({
-               user_id,
-               product_id,
-               quantity,
-             });
-         
-             // Save the cart item to the database
-             await cartItem.save();
-         
-             res.status(201).json(cartItem); // Respond with the added cart item
-           } catch (error) {
-             console.error('Error adding item to cart:', error);
-             res.status(500).json({ message: 'Error adding item to cart' });
-           }
-         };
+  const { userId, productId, quantity, price, imageUrl } = req.body; 
+  
+  try {
+    const result = await addToCart(userId, productId, quantity, price, imageUrl);
+    if (result.success) {
+      res.status(201).json({ message: 'Item added to cart successfully' });
+    } else {
+      throw new Error(result.message);
+    }
+  } catch (error) {
+    console.error('Error adding item to cart:', error);
+    res.status(500).json({ message: 'Error adding item to cart' });
+  }
+};
         
 
          async function updateCartItem(req, res) {
