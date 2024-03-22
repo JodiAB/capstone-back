@@ -22,7 +22,6 @@ const login = async (req, res, next) => {
     }
 
     const token = jwt.sign({ userId: user.userID, userEmail: user.userEmail }, process.env.SECRET_KEY, { expiresIn: '1h' });
-    // Remove sensitive information from user object before sending in response
     const userInfo = { userId: user.userID, userName: user.userName, userEmail: user.userEmail };
     res.status(200).json({ token, userInfo });
   } catch (error) {

@@ -96,7 +96,7 @@ const checkUser = async (userEmail) => {
   const addToCart = async (userId, productId, quantity, price, imageUrl) => {
         try {
           const query = `
-            INSERT INTO shopping_cart (user_id, product_id, quantity, price, image_url)
+            INSERT INTO cart (user_id, product_id, quantity, price, image_url)
             VALUES (?, ?, ?, ?, ?)
           `;
           await pool.query(query, [userId, productId, quantity, price, imageUrl]);
